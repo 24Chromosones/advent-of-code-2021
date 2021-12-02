@@ -1,4 +1,4 @@
-# part 1
+
 
 def part1():
     with open('inputs/day1.txt', 'r') as f:
