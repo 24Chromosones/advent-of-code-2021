@@ -53,4 +53,76 @@ def part1():
         first = False
 
 
+def part2():
+    with open('inputs/day4.txt', 'r') as f:
+        d4 = f.read().split('\n\n')
+
+
+    numbers = d4[0].split(',')
+    games = {}
+    for i in range(1, len(d4)):
+        games[f'game{i}'] = d4[i].split('\n')
+        games[f'game{i}'] = [line for line in games[f'game{i}'] if line.strip() != '']
+    first = True
+
+    for i in numbers:
+        if len(games) != 1:
+            print(len(games))
+            print(games)
+            done = False
+            for game in games:
+                for row in range(len(games[game])):
+                    if first:
+                        games[game][row] = games[game][row].split()
+                    games[game][row] = ['-1' if x == i else x for x in games[game][row]]
+                    equal_number = games[game][row][0]
+                    check = True
+
+                    for o in games[game][row]:
+                        if equal_number != o:
+                            check = False
+                            break
+                    if check:
+                        try:
+                            del games[game]
+                        except RuntimeError:
+                            pass
+                        done = True
+                        break
+
+                if done:
+                    break
+                for j in range(len(games[game])):
+                    column = []
+                    for k in games[game]:
+                        column.append(k[j])
+                    equal_number = games[game][row][0]
+                    check = True
+                    for o in column:
+                        if equal_number != o:
+                            check = False
+                            break
+                    if check:
+                        try:
+                            del games[game]
+                        except RuntimeError:
+                            pass
+                        done = True
+                        break
+                if done:
+                    break
+
+        else:
+            answer = 0
+            for v in games[game]:
+                for num in v:
+                    if num != '-1':
+                        answer += int(num)
+            print('succ')
+            return answer * int(i)
+
+        first = False
+
 print(part1())
+
+part2()
